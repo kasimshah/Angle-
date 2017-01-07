@@ -1,0 +1,59 @@
+
+import math
+
+class Points(object):
+
+    #Method to initialize the instance
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    #Method to subtract two variables that are instance of Points
+    def __sub__(self, no):
+        return Points(self.x - no.x, self.y - no.y, self.z - no.z)
+
+    #Method to find the dot product
+    def dot(self, no):
+        return (self.x * no.x) + (self.y * no.y) + (self.z * no.z)
+
+    #Method to find the cross product
+    def cross(self, no):
+        return Points(self.y * no.z - self.z * no.y, self.z * no.x - self.x * no.z, self.x * no.y - self.y * no.x)
+
+    #Method to find the absolute value
+    def absolute(self):
+        return pow((self.x ** 2 + self.y ** 2 + self.z ** 2), 0.5)
+
+
+if __name__ == '__main__':
+
+    points = list() #Make points an instance of lists so it can hold multiple points
+
+    #For loop for the user to enter in 4 points in the x,y,z plane
+    for i in range(4):
+        point=i+1
+        print "Enter x,y,z components for point %d. Make sure to leave a space between the points." %(point)
+        a = map(float, raw_input().split())
+        #While loop in case if the user does not enter the points correctly and keep looping until it does
+        while (len(a)!=3):
+            print"You did not enter the numbers correctly for point %d. Please enter the point properly" %(point)
+            a = map(float, raw_input().split())
+
+        #Add the point to the list points
+        points.append(a)
+
+    a=Points(*points[0]) #Create instance of class Points
+    b=Points(*points[1]) #Create instance of class Points
+    c=Points(*points[2]) #Create instance of class Points
+    d=Points(*points[3]) #Create instance of class Points
+
+    AB=b-a #Line by subtracting the points, which will make it an instance of the class Points
+    BC=c-b #Line by subtracting the points, which will make it an instance of the class Points
+    CD=d-c #Line by subtracting the points, which will make it an instance of the class Points
+
+    x = (AB).cross(BC) #Vector
+    y = (BC).cross(CD) #Vector
+    angle = math.acos(x.dot(y) / (x.absolute() * y.absolute()))
+
+    print "The angle between the points 1,2,3 and 2,3,4 is: %.2f" % math.degrees(angle)
